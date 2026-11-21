@@ -130,9 +130,9 @@ class ModelsStudio(QMainWindow):
         view=self.menuBar().addMenu("&View")
         self._action(view,"Fit all objects",self.fit_view,"F")
         self._action(view,"Isometric",self.set_iso_view)
-        self._action(view,"Front view",lambda:self._view("xy"))
+        self._action(view,"Front view",lambda:self._view("front"))
         self._action(view,"Top view",lambda:self._view("xy_top"))
-        self._action(view,"Side view",lambda:self._view("yz"))
+        self._action(view,"Side view",lambda:self._view("side"))
 
     def _setup_toolbar(self):
         bar=QToolBar("Quick tools"); bar.setMovable(False); self.addToolBar(bar)
