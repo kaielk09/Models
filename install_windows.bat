@@ -1,15 +1,33 @@
 @echo off
-title Models Studio - Setup
+setlocal
+title Models Studio - Installer
 cd /d "%~dp0"
-echo Installing Models Studio dependencies...
-py -m pip install --upgrade pip
-py -m pip install -r requirements.txt
+echo.
+echo  Models Studio - dependency setup
+echo  ==============================
+where py >nul 2>nul
 if errorlevel 1 (
-  echo.
-  echo Installation failed. Check the Python installation and try again.
+  echo Python launcher ^(py^) was not found. Install Python 3.11+ and enable PATH.
   pause
   exit /b 1
 )
+if not exist ".venv\\Scripts\\python.exe" (
+  echo Creating isolated environment...
+  py -3 -m venv .venv
+  if errorlevel 1 goto failed
+)
+echo Updating pip...
+".venv\\Scripts\\python.exe" -m pip install --upgrade pip
+if errorlevel 1 goto failed
+echo Installing dependencies...
+".venv\\Scripts\\python.exe" -m pip install -r requirements.txt
+if errorlevel 1 goto failed
 echo.
-echo Setup complete. Run run_windows.bat to launch the app.
+echo Installation finished. Launch run_windows.bat to start the program.
 pause
+exit /b 0
+:failed
+echo.
+echo Setup failed. Verify your Python installation and internet connection.
+pause
+exit /b 1
